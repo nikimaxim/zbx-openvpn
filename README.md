@@ -1,9 +1,9 @@
 ## Zabbix openvpn service
 - https://github.com/nikimaxim/zbx-openvpn.git
 
-### Linux Install 
+### Installing for linux
 #### Requirements:
-- OS: RedHat family
+- OS: Linux
 - Zabbix-agent: 4.0 and later
 - Openvpn: 2.4 and later
 
