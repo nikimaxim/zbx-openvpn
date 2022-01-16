@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>5.0</version>
+    <date>2022-01-16T13:44:03Z</date>
+    <groups>
+        <group>
+            <name>Templates Users</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template App OpenVPN Service</template>
+            <name>Template App OpenVPN Service</name>
+            <groups>
+                <group>
+                    <name>Templates Users</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>Openvpn</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>Openvpn user number</name>
+                    <key>openvpn.user.number</key>
+                    <units>count</units>
+                    <applications>
+                        <application>
+                            <name>Openvpn</name>
+                        </application>
+                    </applications>
+                    <request_method>POST</request_method>
+                </item>
+                <item>
+                    <name>Openvpn version</name>
+                    <key>openvpn.version</key>
+                    <delay>1h</delay>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <applications>
+                        <application>
+                            <name>Openvpn</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{diff()}=1</expression>
+                            <name>Version of openvpn was changed on {HOST.NAME}</name>
+                            <priority>INFO</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Openvpn service is running</name>
+                    <key>proc.num[openvpn]</key>
+                    <applications>
+                        <application>
+                            <name>Openvpn</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{last()}=0</expression>
+                            <name>Openvpn service is down on {HOST.NAME}</name>
+                            <priority>WARNING</priority>
+                        </trigger>
+                    </triggers>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Openvpn users discovery</name>
+                    <key>openvpn.discovery</key>
+                    <delay>10m</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>Openvpn byte received {#VPN.USER}</name>
+                            <key>openvpn.user.received[{#VPN.USER}]</key>
+                            <units>b\s</units>
+                            <applications>
+                                <application>
+                                    <name>Openvpn</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <request_method>POST</request_method>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Openvpn byte sent {#VPN.USER}</name>
+                            <key>openvpn.user.sent[{#VPN.USER}]</key>
+                            <units>b\s</units>
+                            <applications>
+                                <application>
+                                    <name>Openvpn</name>
+                                </application>
+                            </applications>
+                            <preprocessing>
+                                <step>
+                                    <type>CHANGE_PER_SECOND</type>
+                                    <params/>
+                                </step>
+                            </preprocessing>
+                            <request_method>POST</request_method>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>Openvpn user status {#VPN.USER}</name>
+                            <key>openvpn.user.status[{#VPN.USER}]</key>
+                            <applications>
+                                <application>
+                                    <name>Openvpn</name>
+                                </application>
+                            </applications>
+                            <request_method>POST</request_method>
+                        </item_prototype>
+                    </item_prototypes>
+                    <graph_prototypes>
+                        <graph_prototype>
+                            <name>Openvpn byte sent/received {#VPN.USER}</name>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <color>1A7C11</color>
+                                    <item>
+                                        <host>Template App OpenVPN Service</host>
+                                        <key>openvpn.user.received[{#VPN.USER}]</key>
+                                    </item>
+                                </graph_item>
+                                <graph_item>
+                                    <sortorder>2</sortorder>
+                                    <color>F63100</color>
+                                    <item>
+                                        <host>Template App OpenVPN Service</host>
+                                        <key>openvpn.user.sent[{#VPN.USER}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                        <graph_prototype>
+                            <name>Openvpn status {#VPN.USER}</name>
+                            <graph_items>
+                                <graph_item>
+                                    <sortorder>1</sortorder>
+                                    <color>1A7C11</color>
+                                    <item>
+                                        <host>Template App OpenVPN Service</host>
+                                        <key>openvpn.user.status[{#VPN.USER}]</key>
+                                    </item>
+                                </graph_item>
+                            </graph_items>
+                        </graph_prototype>
+                    </graph_prototypes>
+                    <request_method>POST</request_method>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+    <graphs>
+        <graph>
+            <name>Openvpn status of all users</name>
+            <graph_items>
+                <graph_item>
+                    <color>0040FF</color>
+                    <item>
+                        <host>Template App OpenVPN Service</host>
+                        <key>openvpn.user.number</key>
+                    </item>
+                </graph_item>
+            </graph_items>
+        </graph>
+    </graphs>
+</zabbix_export>
